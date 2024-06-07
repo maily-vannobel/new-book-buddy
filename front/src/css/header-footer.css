@@ -1,0 +1,21 @@
+.navbar,
+.footer {
+    background-color: #f7f4f3;
+}
+
+.nav-link {
+    color: #000 !important; /* Utilisez !important pour forcer l'application de la couleur noire */
+}
+
+.nav-link:hover {
+    color: #000 !important;
+    text-decoration: underline !important;
+    opacity: 0.8;
+}
+
+.footer {
+    position: fixed !important;
+    bottom: 0 !important;
+    width: 100%;
+    padding: 1rem 0;
+}

@@ -1,0 +1,92 @@
+body{
+    font-family: 'Abel';
+     
+}
+h1 {margin-bottom: 20px;}
+h2 {font-size: 20px;}
+.bc-book-component {
+    border: 1px solid #ddd;
+    padding: 16px;
+    margin: 16px;
+    border-radius: 8px;
+    background-color: #f7f4f3;
+}
+.bc-book-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    margin-bottom: 16px;
+    cursor: pointer;
+}
+
+.bc-progress-container {
+    width: 200px;
+}
+
+.bc-cardHeader {
+    cursor: pointer;
+    margin-right: 16px;
+}
+
+/* FAVORITE BUTTON */
+.bc-favorite-button {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-size: 1.5em;
+    color: #ff002b;
+}
+
+.bc-favorite-button .bi-heart {
+    color: #b31200;
+}
+
+.bc-favorite-button:hover .bi-heart {
+    color: #120d0c;
+}
+
+/* DELETE BUTTON */
+
+.bc-delete-button .bi-trash {
+    color: #d9534f;
+}
+
+.bc-delete-button:hover .bi-trash {
+    color: #b31200;
+}
+
+/*MODAL */
+.bc-modal-header h1,
+.bc-modal-header h2 {
+    color: #610c03;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.bc-modal-content {
+    background-color: #f7f4f3;
+}
+.bc-modal-body {
+    background-color: white;
+    max-width: 95%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.bc-modal-text {
+    color: #283044;
+    font-weight: 700;
+}
+
+/* BOOK STATE */
+.bc-book-state-container {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Custom select focus */
+.form-control:focus {
+    border-color: #98414f; 
+    box-shadow: 0 0 0 0.2rem rgba(188, 0, 88, 0.275); 
+}

@@ -1,0 +1,119 @@
+
+.bookForm-center-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 5rem 0;
+}
+
+.bookForm-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.bookForm-wrapper {
+    width: 400px;
+    border-radius: 8px;
+    padding: 30px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    background: rgb(111, 107, 98) !important;}
+.bookForm-form {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.bookForm-h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #fff;}
+
+.bookForm-p {
+    color: #fff;
+    opacity: 0.8;
+}
+
+.bookForm-input-field {
+    position: relative;
+    border-bottom: 2px solid #ccc;
+    margin: 15px 0;
+}
+
+.bookForm-input-field label {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    color: #fff;
+    font-size: 16px;
+    pointer-events: none;
+    transition: 0.15s ease;
+}
+
+.bookForm-input-field input,
+.bookForm-input-field select {
+    width: 100%;
+    height: 40px;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    color: #fff;
+}
+
+.bookForm-input-field input:focus ~ label,
+.bookForm-input-field input:valid ~ label,
+.bookForm-input-field select:focus ~ label,
+.bookForm-input-field select:valid ~ label {
+    font-size: 0.8rem;
+    top: 10px;
+    transform: translateY(-120%);
+}
+
+
+
+.bookForm-button {
+    background: #fff;
+    color: #000;
+    font-weight: 600;
+    border: none;
+    padding: 12px 20px;
+    cursor: pointer;
+    border-radius: 3px;
+    font-size: 16px;
+    border: 2px solid transparent;
+    transition: 0.3s ease;
+    margin-bottom: 15px;
+}
+
+.bookForm-button:hover {
+    color: #fff;
+    border-color: #fff;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.bookForm-error {
+    margin: 10px;
+    color: red;
+}
+
+.bookForm-register {
+    text-align: center;
+    margin-top: 30px;
+    color: #fff;
+}
+
+.bookForm-login {
+    text-align: center;
+    margin-top: 30px;
+    color: #fff;
+}
+
+.bookForm-p,
+.bookForm-label {
+    color: #fff;
+}

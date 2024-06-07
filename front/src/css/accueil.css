@@ -1,0 +1,52 @@
+.accueil-container {
+    text-align: center;
+    padding: 20px;
+}
+
+.accueil-container h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.accueil-container h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #555;
+}
+
+.accueil-container h3 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #777;
+}
+
+.app-info {
+    margin-top: 40px;
+}
+
+.app-info ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+}
+
+.app-info li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 200px;
+    text-align: center;
+}
+
+.app-info .icon {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.app-info p {
+    font-size: 1rem;
+    color: #660;
+}
