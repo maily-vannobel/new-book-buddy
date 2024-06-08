@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
@@ -8,8 +8,12 @@ Modal.setAppElement("#root");
 
 function BookComponent({ book, onFavoriteToggle, onUpdateBook }) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [newEtat, setNewEtat] = useState(book?.etat || "");
-    const [lastPageRead, setLastPageRead] = useState(book?.pageCourante || 0);
+    const [newEtat, setNewEtat] = useState(book?.state || ""); 
+    const [lastPageRead, setLastPageRead] = useState(book?.currentPage || 0); 
+
+    useEffect(() => {
+        console.log("Book data:", book);
+    }, [book]);
 
     const openModal = () => {
         setModalIsOpen(true);
@@ -32,12 +36,12 @@ function BookComponent({ book, onFavoriteToggle, onUpdateBook }) {
         e.preventDefault();
         if (book) {
             console.log("Submitting updates for book:", book._id, {
-                etat: newEtat,
-                pageCourante: lastPageRead,
+                state: newEtat, 
+                currentPage: lastPageRead, 
             });
             onUpdateBook(book._id, {
-                etat: newEtat,
-                pageCourante: lastPageRead,
+                state: newEtat, 
+                currentPage: lastPageRead, 
             });
         }
         closeModal(e);
@@ -46,19 +50,19 @@ function BookComponent({ book, onFavoriteToggle, onUpdateBook }) {
     if (!book) {
         return null;
     }
-    const progressPercentage = (book.pageCourante / book.nombre_de_pages) * 100;
+    const progressPercentage = (book.currentPage / book.numberPage) * 100; 
 
     return (
         <div className="bc-book-component card mb-3">
             <div className="card-body d-flex flex-column">
                 <div className="bc-cardHeader" onClick={openModal}>
-                    <h2 className="bc-book-title">{book.titre}</h2>
-                    <h3 className="bc-book-author">{book.auteur}</h3>
+                    <h2 className="bc-book-title">{book.title}</h2>
+                    <h3 className="bc-book-author">{book.author}</h3>
                 </div>
 
                 <div className="bc-book-state-container">
-                    <p className="bc-book-state card-text">État: {book.etat}</p>
-                    {book.etat === "En cours de lecture" && (
+                    <p className="bc-book-state card-text">État: {book.state}</p>
+                    {book.state === "En cours de lecture" && (
                         <div className="bc-progress-container">
                             <div
                                 className="progress"
@@ -75,7 +79,7 @@ function BookComponent({ book, onFavoriteToggle, onUpdateBook }) {
                                     }}
                                     aria-valuenow={lastPageRead}
                                     aria-valuemin="0"
-                                    aria-valuemax={book.nombre_de_pages}
+                                    aria-valuemax={book.numberPage} 
                                 >
                                     {`${progressPercentage.toFixed(2)}%`}
                                 </div>
@@ -87,18 +91,18 @@ function BookComponent({ book, onFavoriteToggle, onUpdateBook }) {
                     <img
                         className="bc-book-image card-img-top"
                         src={book.image}
-                        alt={`${book.titre} cover`}
+                        alt={`${book.title} cover`} 
                         onClick={openModal}
                     />
                 )}
-                    <div className="d-flex justify-content-between mt-2">
-                                <button className="btn btn-outline-primary">
-                                    <i className="bi bi-heart"></i>
-                                </button>
-                                <button className="btn btn-outline-danger">
-                                    <i className="bi bi-trash"></i>
-                                </button>
-                        </div>
+                <div className="d-flex justify-content-between mt-2">
+                    <button className="btn btn-outline-primary" onClick={onFavoriteToggle}>
+                        <i className="bi bi-heart"></i>
+                    </button>
+                    <button className="btn btn-outline-danger">
+                        <i className="bi bi-trash"></i>
+                    </button>
+                </div>
             </div>
 
             <Modal
@@ -108,20 +112,20 @@ function BookComponent({ book, onFavoriteToggle, onUpdateBook }) {
             >
                 <div className="bc-modal-content">
                     <div className="bc-modal-header">
-                        <h2 className="bc-modal-title">{book.titre}</h2>
-                        <h2>{book.auteur}</h2>
+                        <h2 className="bc-modal-title">{book.title}</h2> 
+                        <h2>{book.author}</h2> 
                     </div>
                     <div className="bc-modal-body m-2">
                         <div className="bc-modal-details">
                             <p>
                                 Pages{" "}
                                 <span className="bc-modal-text">
-                                    {book.nombre_de_pages}
+                                    {book.numberPage} 
                                 </span>
                                 <br />
                                 Genre{" "}
                                 <span className="bc-modal-text">
-                                    {book.categorie}
+                                    {book.category}
                                 </span>
                             </p>
                         </div>
@@ -153,7 +157,7 @@ function BookComponent({ book, onFavoriteToggle, onUpdateBook }) {
                                         value={lastPageRead}
                                         onChange={handlePageReadChange}
                                         min="0"
-                                        max={book.nombre_de_pages}
+                                        max={book.numberPage} 
                                     />
                                     <div className="progress mt-2">
                                         <div
@@ -162,17 +166,17 @@ function BookComponent({ book, onFavoriteToggle, onUpdateBook }) {
                                             style={{
                                                 width: `${(
                                                     (lastPageRead /
-                                                        book.nombre_de_pages) *
+                                                        book.numberPage) *
                                                     100
                                                 ).toFixed(2)}%`,
                                             }}
                                             aria-valuenow={lastPageRead}
                                             aria-valuemin="0"
-                                            aria-valuemax={book.nombre_de_pages}
+                                            aria-valuemax={book.numberPage}
                                         >
                                             {(
                                                 (lastPageRead /
-                                                    book.nombre_de_pages) *
+                                                    book.numberPage) *
                                                 100
                                             ).toFixed(2)}
                                             %

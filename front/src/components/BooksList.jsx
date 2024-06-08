@@ -2,45 +2,57 @@ import React, { useState, useEffect } from "react";
 import BookComponent from "./BookComponent";
 import FormCategorie from "./FormCategorie";
 
-
 function BooksList() {
     const categories = {
         Action: "Action",
         Comédie: "Comédie",
-        "Dark Romance": "Dark Romance",
         Dystopie: "Dystopie",
         Fantaisie: "Fantaisie",
         Histoire: "Histoire",
-        "New Romance": "New Romance",
         Policier: "Policier",
         Psycho: "Psycho",
         "Science Fiction": "Science Fiction",
         Thriller: "Thriller",
-        "Young Adult": "Young Adult"
-    };  
+        Romance: "Romance",
+        Drame: "Drame",
+        Aventure: "Aventure",
+        Biographie: "Biographie",
+        Philosophie: "Philosophie",
+        Mystère: "Mystère",
+        Essais: "Essais"
+    };
+
     const [books, setBooks] = useState([]);
     const [selectedCategories, setSelectedCategories] = useState({
         Action: false,
         Comédie: false,
-        "Dark Romance": false,
         Dystopie: false,
         Fantaisie: false,
         Histoire: false,
-        "New Romance": false,
         Policier: false,
         Psycho: false,
         "Science Fiction": false,
         Thriller: false,
-        "Young Adult": false
+        Romance: false,
+        Drame: false,
+        Aventure: false,
+        Biographie: false,
+        Philosophie: false,
+        Mystère: false,
+        Essais: false
     });
-    
+
     const [filteredBooks, setFilteredBooks] = useState([]);
 
     useEffect(() => {
         async function getBooks() {
             try {
                 const response = await fetch("http://localhost:3000/api/books");
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 const data = await response.json();
+                console.log("Books data:", data);
                 setBooks(data);
                 setFilteredBooks(data);
             } catch (error) {
@@ -56,6 +68,7 @@ function BooksList() {
     const handleCheckboxChange = (name, checked) => {
         setSelectedCategories((prevState) => {
             const updatedCategories = { ...prevState, [name]: checked };
+            console.log("Updated categories:", updatedCategories);
             filterBooksByCategories(updatedCategories);
             return updatedCategories;
         });
@@ -72,19 +85,23 @@ function BooksList() {
         }
 
         const filtered = books.filter((book) =>
-            selectedCategoryNames.includes(book.categorie)
+            selectedCategoryNames.includes(book.category)
         );
 
         setFilteredBooks(filtered);
     };
 
     const handleUpdateBook = (id, updatedData) => {
-        setBooks((prevBooks) => prevBooks.map((book) =>
-            book._id === id ? { ...book, ...updatedData } : book
-        ));
-        setFilteredBooks((prevFilteredBooks) => prevFilteredBooks.map((book) =>
-            book._id === id ? { ...book, ...updatedData } : book
-        ));
+        setBooks((prevBooks) =>
+            prevBooks.map((book) =>
+                book._id === id ? { ...book, ...updatedData } : book
+            )
+        );
+        setFilteredBooks((prevFilteredBooks) =>
+            prevFilteredBooks.map((book) =>
+                book._id === id ? { ...book, ...updatedData } : book
+            )
+        );
     };
 
     return (

@@ -1,11 +1,9 @@
-const { Path } = require("three");
 const Book = require("../models/bookSchema");
 const User = require("../models/userSchema");
 const jwt = require("jsonwebtoken");
 require("dotenv").config("../.env");
 
-// exports.getBookbyID
-
+// Récupérer tous les livres
 exports.getAllBooks = async (req, res) => {
     try {
         const books = await Book.find();
@@ -18,11 +16,10 @@ exports.getAllBooks = async (req, res) => {
 };
 
 // Récupérer un livre par ID
-
 exports.getBookByID = async (req, res) => {
     try {
         const { id } = req.params;
-        console.log(`ID reçu : ${id}`); // Journaliser l'ID reçu
+        console.log(`ID reçu : ${id}`);
 
         if (!id.match(/^[0-9a-fA-F]{24}$/)) {
             console.error(`ID de livre invalide : ${id}`);
@@ -36,21 +33,18 @@ exports.getBookByID = async (req, res) => {
         }
         res.status(200).json(book);
     } catch (error) {
-        console.error(
-            `Erreur lors de la récupération du livre pour l'ID : ${id}`,
-            error
-        );
+        console.error(`Erreur lors de la récupération du livre pour l'ID : ${id}`, error);
         res.status(500).json({
             message: `Erreur lors de la récupération du livre, ${error}`,
         });
     }
 };
 
-//recup un livre par filtre
+// Récupérer un livre par filtre
 exports.getBookByFilter = async (req, res) => {
     try {
         const { filter, value } = req.params;
-        console.log(`Filtre reçu : ${filter}, Valeur reçue : ${value}`); // Journaliser le filtre et la valeur reçus
+        console.log(`Filtre reçu : ${filter}, Valeur reçue : ${value}`);
 
         const query = {};
         query[filter] = value;
@@ -68,14 +62,13 @@ exports.getBookByFilter = async (req, res) => {
     }
 };
 
-
 // Ajouter un livre
 exports.addBook = async (req, res) => {
-    console.log("Request body:", req.body); 
+    console.log("Request body:", req.body);
     try {
         const newBook = new Book(req.body);
         const book = await newBook.save();
-        console.log("Book saved:", book); 
+        console.log("Book saved:", book);
         res.status(201).json(book);
     } catch (error) {
         console.error("Error adding book:", error);
@@ -89,7 +82,7 @@ exports.addBook = async (req, res) => {
 exports.updateBookState = async (req, res) => {
     try {
         const { id } = req.params;
-        const { etat } = req.body;
+        const { state } = req.body;
 
         if (!id.match(/^[0-9a-fA-F]{24}$/)) {
             return res.status(400).json({ message: "ID de livre invalide" });
@@ -97,7 +90,7 @@ exports.updateBookState = async (req, res) => {
 
         const book = await Book.findByIdAndUpdate(
             id,
-            { etat: etat },
+            { state: state },
             { new: true }
         );
         if (!book) {
@@ -112,7 +105,7 @@ exports.updateBookState = async (req, res) => {
     }
 };
 
-// modifier page en cours de lecture
+// Modifier la page en cours de lecture
 exports.updateReadingPage = async (req, res) => {
     try {
         const { id } = req.params;
@@ -153,7 +146,7 @@ exports.addBookToFavorites = async (req, res) => {
             return res.status(404).json({ message: "Livre non trouvé" });
         }
 
-        book.isFavorite = true;
+        book.favorite = true;
         await book.save();
 
         res.status(200).json({ message: "Livre ajouté aux favoris", book });
@@ -209,7 +202,7 @@ exports.getBooks = async (req, res) => {
         const books = await Book.find();
         const booksWithFavorites = books.map(book => ({
             ...book.toObject(),
-            favori: userFavorites.includes(book._id.toString()),
+            favorite: userFavorites.includes(book._id.toString()),
         }));
         res.status(200).json(booksWithFavorites);
     } catch (error) {
@@ -218,6 +211,7 @@ exports.getBooks = async (req, res) => {
         });
     }
 };
+
 exports.getBooksFavorites = async (req, res) => {
     try {
         const userId = req.user.id;
@@ -238,13 +232,9 @@ exports.getBooksFavorites = async (req, res) => {
         const favoriteBooks = await Book.find({ _id: { $in: user.favorites } });
         res.status(200).json(favoriteBooks);
     } catch (error) {
-        console.error(
-            "Erreur lors de la récupération des livres favoris:",
-            error
-        );
+        console.error("Erreur lors de la récupération des livres favoris:", error);
         res.status(500).json({
-            message:
-                "Erreur serveur lors de la récupération des livres favoris",
+            message: "Erreur serveur lors de la récupération des livres favoris",
         });
     }
 };
@@ -260,9 +250,10 @@ exports.putBooksUpdate = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
 exports.putBooksUpdatePage = async (req, res) => {
     const bookId = req.params.id;
-    const { pageCourante } = req.body;
+    const { currentPage } = req.body;
 
     try {
         const book = await Book.findById(bookId); // Recherche du livre dans la base de données
@@ -270,32 +261,30 @@ exports.putBooksUpdatePage = async (req, res) => {
         if (!book) {
             return res.status(404).json({ message: "Livre non trouvé" });
         }
-        book.pageCourante = pageCourante; // Mise à jour de la page en cours de lecture
+        book.currentPage = currentPage; // Mise à jour de la page en cours de lecture
 
         const updatedBook = await book.save(); // Sauvegarde du livre mis à jour dans la base de données
 
         res.status(200).json(updatedBook);
     } catch (error) {
-        console.error(
-            "Erreur lors de la mise à jour de la page en cours de lecture:",
-            error
-        );
+        console.error("Erreur lors de la mise à jour de la page en cours de lecture:", error);
         res.status(500).json({
-            message:
-                "Erreur serveur lors de la mise à jour de la page en cours de lecture",
+            message: "Erreur serveur lors de la mise à jour de la page en cours de lecture",
         });
     }
 };
+
 exports.postBooksAdd = async (req, res) => {
     try {
-        const { titre, auteur, image, page, etat, genre } = req.body;
+        const { title, author, date, image, numberPage, state, category } = req.body;
         const newBook = new Book({
-            titre,
-            auteur,
+            title,
+            author,
+            date,
             image,
-            nombre_de_pages: page,
-            etat,
-            genre,
+            numberPage,
+            state,
+            category,
         });
         await newBook.save();
         res.status(201).json({ message: "Livre ajouté avec succès" });
@@ -303,6 +292,7 @@ exports.postBooksAdd = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
 exports.postBookAddFavorites = async (req, res) => {
     const bookId = req.body.bookId; // Obtenir l'ID du livre à partir du corps de la requête
     const token = req.headers.authorization.split(" ")[1]; // Obtenir le token JWT à partir des en-têtes de la requête
@@ -337,6 +327,7 @@ exports.postBookAddFavorites = async (req, res) => {
         });
     }
 };
+
 exports.deleteBooks = async (req, res) => {
     const bookId = req.params.id;
     const token = req.headers.authorization.split(" ")[1]; // Obtenir le token JWT à partir des en-têtes de la requête
@@ -358,13 +349,9 @@ exports.deleteBooks = async (req, res) => {
         const updatedUser = await user.save();
         res.status(200).json(updatedUser);
     } catch (error) {
-        console.error(
-            "Erreur lors de la suppression du livre des favoris:",
-            error
-        );
+        console.error("Erreur lors de la suppression du livre des favoris:", error);
         res.status(500).json({
-            message:
-                "Erreur serveur lors de la suppression du livre des favoris",
+            message: "Erreur serveur lors de la suppression du livre des favoris",
         });
     }
 };

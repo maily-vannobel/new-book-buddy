@@ -1,15 +1,16 @@
 const mongoose = require("mongoose");
 
 const bookSchema = new mongoose.Schema({
-    titre: { type: String, required: true },
-    auteur: { type: String, required: true },
+    title: { type: String, required: true },
+    author: { type: String, required: true },
+    date: String,
     image: String,
-    etat: { type: String, required: true },
-    nombre_de_pages: { type: Number, required: true },
-    pageCourante: { type: Number, default: 0 },
+    state: { type: String, required: true },
+    numberPage: { type: Number, required: true },
+    currentPage: { type: Number, default: 0 },
     resume: String,
-    categorie: String,
-    favori: { type: Boolean, default: false },
+    category: String,
+    favorite: { type: Boolean, default: false },
 });
 
 module.exports = mongoose.model("Book", bookSchema, "book");

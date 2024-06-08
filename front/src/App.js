@@ -9,7 +9,6 @@ import LoginPage from "./pages/LoginPage";
 import SettingsAccountModal from "./components/modal/SettingsAccountModal";
 import Footer from "./components/Footer";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min";
 import "./css/header-footer.css";
 
 function App() {

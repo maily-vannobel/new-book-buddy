@@ -13,7 +13,7 @@ function Footer() {
 
     const fetchUser = async token => {
         try {
-            const response = await fetch("http://localhost:3000/api/userInfo", {
+            const response = await fetch("http://localhost:3001/api/userInfo", {
                 method: "GET",
                 headers: {
                     Authorization: `Bearer ${token}`,

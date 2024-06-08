@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import "../css/bookForm.css";
 
 function FormBook() {
-    const [titre, setTitre] = useState("");
-    const [auteur, setAuteur] = useState("");
+    const [title, setTitle] = useState("");
+    const [author, setAuthor] = useState("");
+    const [date, setDate] = useState(""); // Ajout du champ date
     const [image, setImage] = useState("");
-    const [page, setPage] = useState("");
-    const [selectedEtat, setSelectedEtat] = useState("lire");
-    const [genre, setGenre] = useState("");
+    const [numberPage, setNumberPage] = useState("");
+    const [state, setState] = useState("À lire");
+    const [category, setCategory] = useState("");
     const token = localStorage.getItem('token'); 
 
     const isValidImageUrl = (url) => {
@@ -18,12 +19,12 @@ function FormBook() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (titre.length < 3) {
+        if (title.length < 3) {
             alert("Le titre doit comporter au moins 3 caractères.");
             return;
         }
 
-        if (!/^[A-Za-z\s]{3,}$/.test(auteur)) {
+        if (!/^[A-Za-z\s]{3,}$/.test(author)) {
             alert("L'auteur doit comporter au moins 3 caractères.");
             return;
         }
@@ -33,25 +34,27 @@ function FormBook() {
             return;
         }
 
-        if (!/^[A-Za-z\s]{3,}$/.test(genre)) {
+        if (!/^[A-Za-z\s]{3,}$/.test(category)) {
             alert("Le genre doit comporter au moins 3 caractères.");
             return;
         }
                 
-        const pageAsNumber = Number(page);
+        const pageAsNumber = Number(numberPage);
         if (isNaN(pageAsNumber) || pageAsNumber <= 0) {
             alert("Veuillez entrer un nombre de pages valide.");
             return;
         }
 
         const newBook = {
-            titre,
-            auteur,
+            title,
+            author,
+            date,
             image,
-            page: pageAsNumber,
-            etat: selectedEtat,
-            genre,
+            numberPage: pageAsNumber, // updated field name
+            state, // updated field name
+            category, // updated field name
         };
+        
         console.log("Données envoyées:", newBook);
 
         try {
@@ -77,12 +80,13 @@ function FormBook() {
             alert("Erreur lors de l'ajout du livre");
         }
 
-        setTitre("");
-        setAuteur("");
+        setTitle("");
+        setAuthor("");
+        setDate("");
         setImage("");
-        setPage("");
-        setSelectedEtat("lire");
-        setGenre("");
+        setNumberPage("");
+        setState("À lire");
+        setCategory("");
     };
 
     const handleImageChange = (e) => {
@@ -97,19 +101,28 @@ function FormBook() {
                     <h2 className="bookForm-h2">Ajouter un livre</h2>
                     <div className="bookForm-input-field">
                         <input 
-                            value={titre} 
-                            onChange={e => setTitre(e.target.value)} 
+                            value={title} 
+                            onChange={e => setTitle(e.target.value)} 
                             required 
                         />
                         <label>Titre</label>
                     </div>
                     <div className="bookForm-input-field">
                         <input 
-                            value={auteur} 
-                            onChange={e => setAuteur(e.target.value)} 
+                            value={author} 
+                            onChange={e => setAuthor(e.target.value)} 
                             required 
                         />
                         <label>Auteur</label>
+                    </div>
+                    <div className="bookForm-input-field">
+                        <input 
+                            value={date} 
+                            onChange={e => setDate(e.target.value)} 
+                            type="text" 
+                            required 
+                        />
+                        <label>Date</label>
                     </div>
                     <div className="bookForm-input-field">
                         <input 
@@ -122,20 +135,20 @@ function FormBook() {
                     </div>
                     <div className="bookForm-input-field">
                         <select 
-                            value={selectedEtat} 
-                            onChange={(e) => setSelectedEtat(e.target.value)} 
+                            value={state} 
+                            onChange={(e) => setState(e.target.value)} 
                             required 
                         >
-                            <option value="lire">À lire</option>
-                            <option value="en_cours">En cours de lecture</option>
-                            <option value="fini">Fini</option>
+                            <option value="À lire">À lire</option>
+                            <option value="En cours de lecture">En cours de lecture</option>
+                            <option value="Fini">Fini</option>
                         </select>
                         <label>État de lecture</label>
                     </div>
                     <div className="bookForm-input-field">
                         <input 
-                            value={page} 
-                            onChange={e => setPage(e.target.value)} 
+                            value={numberPage} 
+                            onChange={e => setNumberPage(e.target.value)} 
                             type="number" 
                             required 
                         />
@@ -143,8 +156,8 @@ function FormBook() {
                     </div>
                     <div className="bookForm-input-field">
                         <input 
-                            value={genre} 
-                            onChange={e => setGenre(e.target.value)} 
+                            value={category} 
+                            onChange={e => setCategory(e.target.value)} 
                             required 
                         />
                         <label>Genre</label>

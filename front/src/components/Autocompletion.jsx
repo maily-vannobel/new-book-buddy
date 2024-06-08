@@ -32,7 +32,7 @@ function Autocompletion({ onSelectBook }) {
             setSuggestions([]);
         } else {
             const filteredBooks = books.filter(book =>
-                book.titre.toLowerCase().startsWith(query.toLowerCase())
+                book.title.toLowerCase().startsWith(query.toLowerCase()) // updated field name
             );
             setSuggestions(filteredBooks);
         }
@@ -40,8 +40,8 @@ function Autocompletion({ onSelectBook }) {
 
     const handleBookClick = book => {
         setSelectedBook(book);
-        setNewEtat(book.etat);
-        setLastPageRead(book.pageCourante);
+        setNewEtat(book.state); // updated field name
+        setLastPageRead(book.currentPage); // updated field name
         setModalIsOpen(true);
     };
 
@@ -62,8 +62,8 @@ function Autocompletion({ onSelectBook }) {
         e.preventDefault();
         if (selectedBook) {
             const updatedData = {
-                etat: newEtat,
-                pageCourante: lastPageRead,
+                state: newEtat, // updated field name
+                currentPage: lastPageRead, // updated field name
             };
             console.log(
                 "Submitting updates for book:",
@@ -137,7 +137,7 @@ function Autocompletion({ onSelectBook }) {
                             onClick={() => handleBookClick(book)}
                             style={{ cursor: "pointer" }}
                         >
-                            {book.titre}
+                            {book.title} {/* updated field name */}
                         </li>
                     ))}
                 </ul>
@@ -150,8 +150,8 @@ function Autocompletion({ onSelectBook }) {
                 >
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h1>{selectedBook.titre}</h1>
-                            <h2>{selectedBook.auteur}</h2>
+                            <h1>{selectedBook.title}</h1> {/* updated field name */}
+                            <h2>{selectedBook.author}</h2> {/* updated field name */}
                             <button
                                 type="button"
                                 className="btn-close"
@@ -164,12 +164,12 @@ function Autocompletion({ onSelectBook }) {
                                 <p>
                                     Pages{" "}
                                     <span className="modalText">
-                                        {selectedBook.nombre_de_pages}
+                                        {selectedBook.numberPage} {/* updated field name */}
                                     </span>
                                     <br />
                                     Genre{" "}
                                     <span className="modalText">
-                                        {selectedBook.categorie}
+                                        {selectedBook.category} {/* updated field name */}
                                     </span>
                                 </p>
                             </div>
@@ -202,7 +202,7 @@ function Autocompletion({ onSelectBook }) {
                                             value={lastPageRead}
                                             onChange={handlePageReadChange}
                                             min="0"
-                                            max={selectedBook.nombre_de_pages}
+                                            max={selectedBook.numberPage} 
                                         />
                                         <div className="progress mt-2">
                                             <div
@@ -211,19 +211,19 @@ function Autocompletion({ onSelectBook }) {
                                                 style={{
                                                     width: `${(
                                                         (lastPageRead /
-                                                            selectedBook.nombre_de_pages) *
+                                                            selectedBook.numberPage) *
                                                         100
                                                     ).toFixed(2)}%`,
                                                 }}
                                                 aria-valuenow={lastPageRead}
                                                 aria-valuemin="0"
                                                 aria-valuemax={
-                                                    selectedBook.nombre_de_pages
+                                                    selectedBook.numberPage
                                                 }
                                             >
                                                 {(
                                                     (lastPageRead /
-                                                        selectedBook.nombre_de_pages) *
+                                                        selectedBook.numberPage) *
                                                     100
                                                 ).toFixed(2)}
                                                 %
